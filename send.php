@@ -1,39 +1,23 @@
 <?php
-    if(isset($_POST['cname']) &&
-       isset($_POST['email']) &&
-       isset($_POST['phone']) &&
-       isset($_POST['enquiry']) &&
-       isset($_POST['isclient'])){
-           include 'db_conn.php';
+if (isset($_POST['submit']))
+{
+    $connection = mysqli_connect('localhost','root','portfolio');
 
-           function validate($data){
-               $data=trim($data);
-               $data=stripslashes($data);
-               $data=htmlspecialchars($data);
-               return $data;
-           }
+    $a=$_POST['cname'];
+    $b=$_POST['email'];
+    $c=$_POST['phone'];
+    $d=$_POST['enquiry'];
+    $e=$_POST['isclient'];
 
-           $name=validate($_POST['cname']);
-           $email=validate($_POST['email']);
-           $phone=validate($_POST['phone']);
-           $enquiry=validate($_POST['enquiry']);
-           $isclient=validate($_POST['isclient']);
+    $sql_query="INSERT INTO form(cname,email,phone,enquiry,isclient) VALUES ('$a','$b','$c','$d','$e')";
+    
+    $execute_query=mysqli_query($connection,$sql_query);
 
-           if(empty($cname) || empty($email) || empty($phone) || empty($enquiry) || empty($isclient)){
-               header("Location:index.html");
-           }else{
-               $sql="INSERT INTO portfolio(cname,email,phone,enquiry,isclient) VALUES('$cname','$email','$phone','$enquiry','$isclient')";
-               $res=mysqli_query($con,$sql);
-            if($res){
-                if($res){
-                    echo "Your Datails has been sent succcessfully...";
-                }else{
-                    echo "Your request failed";
-                }
-            }
-        }
+    if($execute_query == TRUE)
+    echo "<script> alert('Submitted')</script>";
 
-       }else{
-           header("Location:index.html");
-       }
+    else
+        echo "<script> alert('Try Again')</script>";
+
+}
 ?>
